@@ -121,12 +121,12 @@
                                                 New Voter Registration
                                             </a>
                                         </div>
-                                        <div>
-                                            <a href="#" id="forgotPasswordLink" class="link-secondary">
-                                                <i class="bi bi-question-circle me-1"></i>
-                                                Forgot Password?
+											<div class="login-links text-center">
+                                        <div class="mb-2">
+                                            <a href="#" id="newCandidateLink" class="link-secondary">
+                                                <i class="bi bi-person-plus me-1"></i>
+                                                New Candidate Registration
                                             </a>
-                                        </div>
                                     </div>
                                 </form>
                             </div>
