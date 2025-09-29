@@ -30,7 +30,7 @@
                         <!-- Login Form Card -->
                         <div class="card login-card">
                             <div class="card-body p-4">
-                                <form id="loginForm">
+                                <form id="loginForm" action = "checkUser" method ="post">
                                     <!-- Username Field -->
                                     <div class="form-group mb-3">
                                         <label for="username" class="form-label">
@@ -46,6 +46,7 @@
                                                 class="form-control" 
                                                 id="username" 
                                                 placeholder="Enter your username"
+                                                name = "email"
                                             >
                                         </div>
                                     </div>
@@ -65,6 +66,7 @@
                                                 class="form-control" 
                                                 id="password" 
                                                 placeholder="Enter your password"
+                                                name = "password"
                                             >
                                             <button 
                                                 class="btn btn-outline-secondary" 
@@ -80,7 +82,7 @@
                                     <!-- Login Buttons -->
                                     <div class="login-buttons mb-3">
                                         <button 
-                                            type="button" 
+                                            type="submit" 
                                             class="btn btn-primary btn-login w-100 mb-2" 
                                             id="voterLogin"
                                             data-role="voter"
@@ -116,7 +118,7 @@
                                     <!-- Links -->
                                     <div class="login-links text-center">
                                         <div class="mb-2">
-                                            <a href="#" id="newVoterLink" class="link-secondary">
+                                            <a href="reg" id="newVoterLink" class="link-secondary">
                                                 <i class="bi bi-person-plus me-1"></i>
                                                 New Voter Registration
                                             </a>

@@ -1,7 +1,5 @@
 package com.oep.controller;
 
-import java.net.http.HttpClient;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +32,12 @@ public class UserController {
 		return "login";
 	}
 	
+	@GetMapping("/login1")
+	public String login1Page() {
+		return "login1";
+	}
+	
+	
 	@PostMapping("/register") // controller mapping
     public String registerUser(
             @RequestParam("name") String name,
@@ -61,12 +65,20 @@ public class UserController {
     }
 	
 	@PostMapping("/checkUser")
-	public boolean checkUser(@RequestParam("email")String email, @RequestParam("password")String password, Model m) {
-		// next page after login for voter, candidate, and admin
-		// if voter > Election list
-		// if candidate > nomination view
-		// if admin > admin dashborad 
-		// since we have different databases in our machine so to test insert an admin record in manually in your database with Role admin
-		return false;
+	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m) {
+		String role = daoimpl.checkUser(email, password);
+		if(role != null) {
+			if(role.equalsIgnoreCase(User.Role.VOTER.toString()))
+				return "voterDash";
+			else if(role.equalsIgnoreCase(User.Role.CANDIDATE.toString()))
+				return "candidate_dashboard";
+			else if(role.equalsIgnoreCase(User.Role.ADMIN.toString()))
+				return "admin_dashboard";
+		}
+		else {
+			m.addAttribute("msg","enter valid user info.");
+			return "login";
+		}
+		return "login";
 	}
 }
