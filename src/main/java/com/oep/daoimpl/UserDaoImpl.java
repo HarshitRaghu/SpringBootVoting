@@ -2,7 +2,11 @@ package com.oep.daoimpl;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
@@ -17,7 +21,10 @@ public class UserDaoImpl implements UserDao {
 	
 	@Autowired
 	private HibernateTemplate hTemplate;
-
+	
+	@Autowired
+	SessionFactory sessionFactory;
+	
 	@Override
 	@Transactional
     public String addUser(User u, String party, String bio) {
@@ -28,7 +35,7 @@ public class UserDaoImpl implements UserDao {
 
         String prefix = u.getRole().toString();
         String suffix = u.getName().charAt(0) + "";
-        String userId = prefix + User.getCount() + suffix;
+        String userId = prefix + (int)(Math.random()*1000) + suffix;
         u.setId(userId);
 
         try {        	
@@ -48,11 +55,29 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+	
+	
 	@Override
+	@Transactional
 	public String checkUser(String email, String password) {
-		// TODO check user login code here
-		// and return user role
-		return null;
+		
+		try {
+	        String hql = "FROM User u WHERE u.email = :email AND u.password = :password";
+	        Session session = sessionFactory.getCurrentSession();
+
+	        List<User> users = session.createQuery(hql, User.class)
+	                                  .setParameter("email", email)
+	                                  .setParameter("password", password)
+	                                  .list();
+
+	        if (!users.isEmpty()) {
+	            return users.get(0).getRole().toString();  // safe access
+	        }
+	        return null;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return null;
+	    }
 	}
 		
 }

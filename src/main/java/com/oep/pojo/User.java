@@ -14,7 +14,6 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
-	private static int count = 0;
 	public enum Role{
 		VOTER, CANDIDATE, ADMIN
 	}
@@ -39,7 +38,6 @@ public class User {
 	private LocalDate dob;
 
 	public User() {
-		count++;
 	}
 
 	public User(String name, String email, String password, Role role, LocalDate dob) {
@@ -48,7 +46,6 @@ public class User {
 		this.password = password;
 		this.role = role;
 		this.dob = dob;
-		count++;
 	}
 
 	public String getId() {
@@ -97,14 +94,6 @@ public class User {
 
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
-	}
-
-	public static int getCount() {
-		return count;
-	}
-
-	public static void setCount(int count) {
-		User.count = count;
 	}
 
 	@Override
