@@ -6,12 +6,23 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class Candidate extends User {
+public class Candidate extends Voter {
 	
 	@Column(nullable = false)
 	private String party;
 	
 	private String bio;
+	
+	@Column(nullable = false, unique = true)
+	private String candidate_id;
+
+	public String getCandidate_id() {
+		return candidate_id;
+	}
+
+	public void setCandidate_id(String candidate_id) {
+		this.candidate_id = candidate_id;
+	}
 
 	public Candidate() {
 	}

@@ -1,6 +1,6 @@
 package com.oep.controller;
 
-import java.net.http.HttpClient;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,28 +10,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.oep.daoimpl.UserDaoImpl;
-import com.oep.pojo.User;
+import com.oep.daoimpl.VoterDaoImpl;
+import com.oep.pojo.Candidate;
+import com.oep.pojo.Voter;
 
 @Controller
 public class UserController {
 	@Autowired
-	private UserDaoImpl daoimpl;
-
-	@RequestMapping("/")
-	public String indexPage()
-	{
-		return "index";
-	}
+	private VoterDaoImpl daoimpl;
 	
-	@GetMapping("/reg") // Registration page mapping
-	public String registerPage() {
-		return "reg";
-	}
-	
-	@GetMapping("/login")
-	public String loginPage() {
-		return "login";
+	@GetMapping("/voter-list")
+	public String listOfVoters(Model m) {
+		List<Voter> voter_list = daoimpl.listOfVoters();
+		if(voter_list.isEmpty()) {
+			m.addAttribute("msg", "No candidate available");
+			return "admin-dashboard";
+		}
+		else {
+			m.addAttribute("voter_list", voter_list);
+			return "candidate-list";
+		}
 	}
 	
 	@PostMapping("/register") // controller mapping
@@ -44,12 +42,12 @@ public class UserController {
             @RequestParam(value = "party", required = false) String party,
             @RequestParam(value = "bio", required = false) String bio,
             Model model) {
-        User user = new User();
+        Voter user = new Voter();
         user.setName(name);
         user.setEmail(email);
         user.setPassword(password);
         user.setDob(java.time.LocalDate.parse(dob));
-        user.setRole(User.Role.valueOf(role));
+        user.setRole(Voter.Role.valueOf(role));
 
         String userId = daoimpl.addUser(user, party, bio);
         if (userId == null) {
@@ -57,16 +55,24 @@ public class UserController {
             return "reg";
         }
 
-        return "login";
+        return "admin-dashboard";
     }
 	
 	@PostMapping("/checkUser")
-	public boolean checkUser(@RequestParam("email")String email, @RequestParam("password")String password, Model m) {
-		// next page after login for voter, candidate, and admin
-		// if voter > Election list
-		// if candidate > nomination view
-		// if admin > admin dashborad 
-		// since we have different databases in our machine so to test insert an admin record in manually in your database with Role admin
-		return false;
+	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m) {
+		String role = daoimpl.checkUser(email, password);
+		if(role != null) {
+			if(role.equalsIgnoreCase(Voter.Role.VOTER.toString()))
+				return "voter-dashboard";
+			else if(role.equalsIgnoreCase(Voter.Role.CANDIDATE.toString()))
+				return "candidate-dashboard";
+			else if(role.equalsIgnoreCase(Voter.Role.ADMIN.toString()))
+				return "admin-dashboard";
+		}
+		else {
+			m.addAttribute("msg","enter valid user info.");
+			return "login";
+		}
+		return "login";
 	}
 }
