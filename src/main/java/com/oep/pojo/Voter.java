@@ -36,16 +36,45 @@ public class Voter {
 	
 	@Column(nullable = false)
 	private LocalDate dob;
+	
+	@Column(nullable = false)
+	private String phone_no;
+	
+	@Column(nullable = false)
+	private String address;
 
-	public Voter() {
-	}
+	
 
-	public Voter(String name, String email, String password, Role role, LocalDate dob) {
+	
+	public Voter(String name, String email, String password, Role role, LocalDate dob, String phone_no,
+			String address) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.role = role;
 		this.dob = dob;
+		this.phone_no = phone_no;
+		this.address = address;
+	}
+
+	public Voter() {
+		
+	}
+
+	public String getPhone_no() {
+		return phone_no;
+	}
+
+	public void setPhone_no(String phone_no) {
+		this.phone_no = phone_no;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getId() {
@@ -98,8 +127,8 @@ public class Voter {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
-				+ ", dob=" + dob + "]";
+		return "Voter [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", dob=" + dob + ", phone_no=" + phone_no + ", address=" + address + "]";
 	}
-	
+
 }

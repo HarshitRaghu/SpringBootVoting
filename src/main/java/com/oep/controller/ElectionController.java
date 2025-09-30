@@ -67,22 +67,29 @@ public class ElectionController {
 	
 	@PostMapping("/update")
 	public String updateElection(
-			@RequestParam("election_id")int election_id,
+			@RequestParam("election_id")String election_id,
 			@RequestParam("name")String name,
 			@RequestParam("date")String date,
 			@RequestParam("position")String position, Model m) {
-		Election e = daoimpl.searchElection(election_id);
-		if(e != null) {
-			e.setElection_name(name);
-			e.setDate(java.time.LocalDate.parse(date));
-			e.setPosition(position);
-			m.addAttribute("election", e);
-			m.addAttribute("msg", "Updated.");
-			return "update-election";
-		}
-		else {
+		try {
+			Election e = daoimpl.searchElection(Integer.parseInt(election_id));
+			if(e != null) {
+				e.setElection_name(name);
+				e.setDate(java.time.LocalDate.parse(date));
+				e.setPosition(position);
+				m.addAttribute("election", e);
+				m.addAttribute("msg", "Updated.");
+				return "admin-dashboard";
+			}
+			else {
+				m.addAttribute("msg", "Not updated");
+				return "update-election";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			m.addAttribute("msg", "Not updated");
 			return "update-election";
+			
 		}
 	}
 }

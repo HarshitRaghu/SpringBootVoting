@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,7 @@ public class VoterDaoImpl implements VoterDao {
 	
 	@Override
 	@Transactional
-    public String addUser(Voter u, String party, String bio) {
+    public String addUser(Voter u, String party, String bio, String constituency, String profile_pic, String party_logo) {
 
         if (Period.between(u.getDob(), LocalDate.now()).getYears() < 18) {
             return null;
@@ -49,6 +48,11 @@ public class VoterDaoImpl implements VoterDao {
             	c.setDob(u.getDob());
             	c.setBio(bio);
             	c.setRole(u.getRole());
+            	c.setAddress(u.getAddress());
+            	c.setConstituency(constituency);
+            	c.setParty_logo(party_logo);
+            	c.setPhone_no(u.getPhone_no());
+            	c.setProfile_pic(profile_pic);
             	String prefix1 = "CANDIDATE";
                 String suffix1 = u.getName().substring(0,2);
                 String candidateId1 = prefix1 + (int)(Math.random()*1000) + suffix1;
@@ -64,9 +68,7 @@ public class VoterDaoImpl implements VoterDao {
             e.printStackTrace();
             return null;
         }
-    }
-
-	
+    }	
 	
 	@Override
 	@Transactional
@@ -91,8 +93,6 @@ public class VoterDaoImpl implements VoterDao {
 	    }
 	}
 
-
-
 	@Override
 	public boolean updateUser(Voter v) {
 		try {
@@ -103,8 +103,6 @@ public class VoterDaoImpl implements VoterDao {
 			return false;
 		}
 	}
-
-
 
 	@Override
 	public boolean deleteUser(Voter v) {
@@ -118,15 +116,11 @@ public class VoterDaoImpl implements VoterDao {
 		}
 	}
 
-
-
 	@Override
 	@Transactional
 	public Voter searchVoter(String id) {
 		return this.hTemplate.get(Voter.class,id);
 	}
-
-
 
 	@Override
 	public List<Voter> listOfVoters() {

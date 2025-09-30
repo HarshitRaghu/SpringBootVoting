@@ -26,6 +26,7 @@
                             <p class="login-subtitle">Secure access to the democratic process</p>
                         </div>
 
+    <a href="reg">registratin</a>
                         <!-- Login Form Card -->
                         <div class="card login-card">
                             <div class="card-body p-4">

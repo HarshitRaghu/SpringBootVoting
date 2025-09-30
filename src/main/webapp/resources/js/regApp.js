@@ -1,308 +1,315 @@
-// Registration Form JavaScript
+/**
+ * User Registration Page JavaScript
+ * Handles role-based field visibility toggling
+ * No form submission functionality as requested
+ */
+
+// Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
-    // Get form elements
-    const roleSelect = document.getElementById('role');
-    const candidateSection = document.getElementById('candidateSection');
-    const candidateFields = {
-        partyName: document.getElementById('partyName'),
-        constituency: document.getElementById('constituency'),
-        bio: document.getElementById('bio')
-    };
-
-    // Initialize form state
-    initializeForm();
-
-    // Event listeners
-    roleSelect.addEventListener('change', handleRoleChange);
+    // Initialize the registration form
+    initializeRegistrationForm();
     
-    // Add input validation listeners
-    addValidationListeners();
-
-    /**
-     * Initialize form state on page load
-     */
-    function initializeForm() {
-        // Hide candidate section by default
-        hideCandidateSection();
-        
-        // Set initial role state
-        const initialRole = roleSelect.value;
-        if (initialRole === 'CANDIDATE') {
-            showCandidateSection();
-        }
-    }
-
-    /**
-     * Handle role selection change
-     */
-    function handleRoleChange() {
-        const selectedRole = roleSelect.value;
-        
-        if (selectedRole === 'CANDIDATE') {
-            showCandidateSection();
-        } else {
-            hideCandidateSection();
-        }
-    }
-
-    /**
-     * Show candidate-specific fields
-     */
-    function showCandidateSection() {
-        // Remove hidden class to trigger CSS transition
-        candidateSection.classList.remove('hidden');
-        
-        // Make candidate fields required
-        Object.values(candidateFields).forEach(field => {
-            if (field) {
-                field.setAttribute('required', 'required');
-                field.removeAttribute('disabled');
-            }
-        });
-
-        // Improve accessibility
-        candidateSection.setAttribute('aria-hidden', 'false');
-        
-        // Focus on first candidate field after transition
-        setTimeout(() => {
-            if (candidateFields.partyName) {
-                candidateFields.partyName.focus();
-            }
-        }, 300);
-    }
-
-    /**
-     * Hide candidate-specific fields
-     */
-    function hideCandidateSection() {
-        // Add hidden class to trigger CSS transition
-        candidateSection.classList.add('hidden');
-        
-        // Remove required attribute and clear values
-        Object.values(candidateFields).forEach(field => {
-            if (field) {
-                field.removeAttribute('required');
-                field.value = '';
-                field.classList.remove('error');
-                
-                // Remove any validation messages
-                const errorMessage = field.parentNode.querySelector('.error-message');
-                if (errorMessage) {
-                    errorMessage.remove();
-                }
-            }
-        });
-
-        // Improve accessibility
-        candidateSection.setAttribute('aria-hidden', 'true');
-    }
-
-    /**
-     * Add validation listeners for better UX
-     */
-    function addValidationListeners() {
-        const allInputs = document.querySelectorAll('.form-control');
-        
-        allInputs.forEach(input => {
-            // Real-time validation on blur
-            input.addEventListener('blur', function() {
-                validateField(this);
-            });
-
-            // Clear validation on input
-            input.addEventListener('input', function() {
-                clearFieldValidation(this);
-            });
-        });
-
-        // Special validation for email
-        const emailField = document.getElementById('email');
-        if (emailField) {
-            emailField.addEventListener('blur', function() {
-                validateEmail(this);
-            });
-        }
-
-        // Special validation for password
-        const passwordField = document.getElementById('password');
-        if (passwordField) {
-            passwordField.addEventListener('input', function() {
-                validatePassword(this);
-            });
-        }
-
-        // Special validation for date of birth
-        const dobField = document.getElementById('dateOfBirth');
-        if (dobField) {
-            dobField.addEventListener('blur', function() {
-                validateAge(this);
-            });
-        }
-    }
-
-    /**
-     * Validate individual field
-     */
-    function validateField(field) {
-        const value = field.value.trim();
-        const isRequired = field.hasAttribute('required');
-        
-        // Check if field is in visible section
-        const candidateSection = document.getElementById('candidateSection');
-        const isInCandidateSection = candidateSection.contains(field);
-        const isCandidateSectionVisible = !candidateSection.classList.contains('hidden');
-        
-        // Skip validation for candidate fields when section is hidden
-        if (isInCandidateSection && !isCandidateSectionVisible) {
-            return true;
-        }
-
-        if (isRequired && !value) {
-            showFieldError(field, 'This field is required');
-            return false;
-        }
-
-        clearFieldValidation(field);
-        return true;
-    }
-
-    /**
-     * Validate email format
-     */
-    function validateEmail(emailField) {
-        const email = emailField.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
-        if (email && !emailRegex.test(email)) {
-            showFieldError(emailField, 'Please enter a valid email address');
-            return false;
-        }
-        
-        return validateField(emailField);
-    }
-
-    /**
-     * Validate password strength
-     */
-    function validatePassword(passwordField) {
-        const password = passwordField.value;
-        
-        if (password && password.length < 8) {
-            showFieldError(passwordField, 'Password must be at least 8 characters long');
-            return false;
-        }
-        
-        return validateField(passwordField);
-    }
-
-    /**
-     * Validate age (must be 18 or older)
-     */
-    function validateAge(dobField) {
-        const dateOfBirth = new Date(dobField.value);
-        const today = new Date();
-        const age = today.getFullYear() - dateOfBirth.getFullYear();
-        const monthDiff = today.getMonth() - dateOfBirth.getMonth();
-        
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())) {
-            age--;
-        }
-        
-        if (dobField.value && age < 18) {
-            showFieldError(dobField, 'You must be at least 18 years old to register');
-            return false;
-        }
-        
-        return validateField(dobField);
-    }
-
-    /**
-     * Show field validation error
-     */
-    function showFieldError(field, message) {
-        clearFieldValidation(field);
-        
-        field.classList.add('error');
-        
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message';
-        errorDiv.textContent = message;
-        errorDiv.style.color = 'var(--color-error)';
-        errorDiv.style.fontSize = 'var(--font-size-xs)';
-        errorDiv.style.marginTop = 'var(--space-4)';
-        
-        field.parentNode.appendChild(errorDiv);
-    }
-
-    /**
-     * Clear field validation
-     */
-    function clearFieldValidation(field) {
-        field.classList.remove('error');
-        
-        const existingError = field.parentNode.querySelector('.error-message');
-        if (existingError) {
-            existingError.remove();
-        }
-    }
-
-    /**
-     * Utility function to animate elements
-     */
-    function animateElement(element, animation) {
-        element.style.animation = animation;
-        element.addEventListener('animationend', function() {
-            element.style.animation = '';
-        }, { once: true });
-    }
-
-    /**
-     * Handle form accessibility
-     */
-    function updateFormAccessibility() {
-        const form = document.getElementById('registrationForm');
-        
-        // Update ARIA labels based on current state
-        const roleValue = roleSelect.value;
-        if (roleValue === 'candidate') {
-            form.setAttribute('aria-describedby', 'form-description candidate-description');
-        } else {
-            form.setAttribute('aria-describedby', 'form-description');
-        }
-    }
-
-    /**
-     * Enhance keyboard navigation
-     */
-    function enhanceKeyboardNavigation() {
-        const form = document.getElementById('registrationForm');
-        
-        form.addEventListener('keydown', function(e) {
-            // Allow Enter to move to next field instead of submitting
-            if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA' && e.target.type !== 'submit') {
-                e.preventDefault();
-                
-                const formElements = Array.from(form.elements);
-                const visibleElements = formElements.filter(el => 
-                    el.type !== 'submit' && 
-                    !el.disabled && 
-                    el.offsetParent !== null
-                );
-                
-                const currentIndex = visibleElements.indexOf(e.target);
-                const nextIndex = currentIndex + 1;
-                
-                if (nextIndex < visibleElements.length) {
-                    visibleElements[nextIndex].focus();
-                }
-            }
-        });
-    }
-
-    // Initialize additional features
-    enhanceKeyboardNavigation();
-    updateFormAccessibility();
-
-    // Update accessibility when role changes
-    roleSelect.addEventListener('change', updateFormAccessibility);
+    // Setup role dropdown functionality
+    setupRoleToggle();
+    
+    // Add form interaction enhancements
+    setupFormInteractions();
 });
+
+/**
+ * Initialize the registration form
+ */
+function initializeRegistrationForm() {
+    const form = document.getElementById('registrationForm');
+    
+    if (!form) {
+        console.error('Registration form not found');
+        return;
+    }
+    
+    // Ensure candidate fields are hidden by default
+    const candidateFields = document.getElementById('candidateFields');
+    if (candidateFields) {
+        candidateFields.style.display = 'none';
+        candidateFields.classList.remove('show');
+    }
+    
+    // Set default role to Voter
+    const roleSelect = document.getElementById('role');
+    if (roleSelect) {
+        roleSelect.value = 'Voter';
+    }
+    
+    console.log('Registration form initialized');
+}
+
+/**
+ * Setup role dropdown toggle functionality
+ */
+function setupRoleToggle() {
+    const roleSelect = document.getElementById('role');
+    const candidateFields = document.getElementById('candidateFields');
+    
+    if (!roleSelect || !candidateFields) {
+        console.error('Role select or candidate fields not found');
+        return;
+    }
+    
+    // Add change event listener to role dropdown
+    roleSelect.addEventListener('change', function() {
+        const selectedRole = this.value;
+        
+        if (selectedRole === 'Candidate') {
+            // Show candidate fields with animation
+            showCandidateFields(candidateFields);
+        } else {
+            // Hide candidate fields
+            hideCandidateFields(candidateFields);
+        }
+    });
+    
+    console.log('Role toggle functionality setup complete');
+}
+
+/**
+ * Show candidate fields with smooth animation
+ * @param {HTMLElement} candidateFields - The candidate fields container
+ */
+function showCandidateFields(candidateFields) {
+    // First make it visible but transparent
+    candidateFields.style.display = 'block';
+    candidateFields.style.opacity = '0';
+    candidateFields.style.transform = 'translateY(-10px)';
+    
+    // Force reflow
+    candidateFields.offsetHeight;
+    
+    // Add show class and animate
+    setTimeout(() => {
+        candidateFields.classList.add('show');
+        candidateFields.style.opacity = '1';
+        candidateFields.style.transform = 'translateY(0)';
+    }, 10);
+    
+    console.log('Candidate fields shown');
+}
+
+/**
+ * Hide candidate fields with smooth animation
+ * @param {HTMLElement} candidateFields - The candidate fields container
+ */
+function hideCandidateFields(candidateFields) {
+    // Remove show class and animate out
+    candidateFields.classList.remove('show');
+    candidateFields.style.opacity = '0';
+    candidateFields.style.transform = 'translateY(-10px)';
+    
+    // Hide after animation completes
+    setTimeout(() => {
+        candidateFields.style.display = 'none';
+        
+        // Clear candidate field values when hidden
+        clearCandidateFields();
+    }, 250); // Match CSS transition duration
+    
+    console.log('Candidate fields hidden');
+}
+
+/**
+ * Clear all candidate field values when switching back to Voter
+ */
+function clearCandidateFields() {
+    const candidateFieldIds = ['party', 'constituency', 'bio', 'partyLogo', 'profilePicture'];
+    
+    candidateFieldIds.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.value = '';
+            
+            // Remove any validation classes
+            field.classList.remove('is-valid', 'is-invalid');
+        }
+    });
+    
+    console.log('Candidate fields cleared');
+}
+
+/**
+ * Setup form interaction enhancements
+ */
+function setupFormInteractions() {
+    // Add hover effects and focus management
+    setupFieldHoverEffects();
+    
+    // Setup keyboard navigation
+    setupKeyboardNavigation();
+    
+    // Setup field validation visual feedback
+    setupValidationFeedback();
+}
+
+/**
+ * Add hover effects to form fields
+ */
+function setupFieldHoverEffects() {
+    const formControls = document.querySelectorAll('.form-control:not([readonly]):not([disabled]), select.form-control');
+    
+    formControls.forEach(control => {
+        control.addEventListener('mouseenter', function() {
+            if (!this.matches(':focus')) {
+                const inputGroup = this.closest('.input-group');
+                if (inputGroup) {
+                    inputGroup.classList.add('hover');
+                }
+            }
+        });
+        
+        control.addEventListener('mouseleave', function() {
+            const inputGroup = this.closest('.input-group');
+            if (inputGroup) {
+                inputGroup.classList.remove('hover');
+            }
+        });
+    });
+}
+
+/**
+ * Setup keyboard navigation enhancements
+ */
+function setupKeyboardNavigation() {
+    const form = document.getElementById('registrationForm');
+    
+    form.addEventListener('keydown', function(e) {
+        // Handle Enter key to move to next field
+        if (e.key === 'Enter') {
+            const activeElement = document.activeElement;
+            
+            // Skip for textareas and submit buttons
+            if (activeElement.tagName === 'TEXTAREA' || activeElement.type === 'submit') {
+                return;
+            }
+            
+            // If it's an input or select, move to next field
+            if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'SELECT') {
+                e.preventDefault();
+                moveToNextField(activeElement);
+            }
+        }
+        
+        // Handle Escape key to blur current field
+        if (e.key === 'Escape') {
+            document.activeElement.blur();
+        }
+    });
+}
+
+/**
+ * Move focus to the next visible form field
+ * @param {HTMLElement} currentField - Current focused field
+ */
+function moveToNextField(currentField) {
+    const formElements = Array.from(document.querySelectorAll('input:not([readonly]):not([disabled]), select, textarea'));
+    
+    // Filter out hidden fields (in case candidate fields are hidden)
+    const visibleElements = formElements.filter(element => {
+        const rect = element.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0;
+    });
+    
+    const currentIndex = visibleElements.indexOf(currentField);
+    
+    if (currentIndex > -1 && currentIndex < visibleElements.length - 1) {
+        visibleElements[currentIndex + 1].focus();
+    }
+}
+
+/**
+ * Setup visual feedback for form validation
+ */
+function setupValidationFeedback() {
+    const requiredFields = document.querySelectorAll('[required]');
+    
+    requiredFields.forEach(field => {
+        // Add blur event for validation feedback
+        field.addEventListener('blur', function() {
+            if (this.value.trim() !== '') {
+                validateField(this);
+            }
+        });
+        
+        // Clear validation state on input
+        field.addEventListener('input', function() {
+            this.classList.remove('is-invalid');
+        });
+    });
+}
+
+/**
+ * Simple field validation with visual feedback
+ * @param {HTMLElement} field - The field to validate
+ */
+function validateField(field) {
+    const isValid = field.checkValidity();
+    
+    // Remove existing validation classes
+    field.classList.remove('is-valid', 'is-invalid');
+    
+    if (isValid) {
+        field.classList.add('is-valid');
+    } else {
+        field.classList.add('is-invalid');
+    }
+}
+
+/**
+ * Get current role selection
+ * @returns {string} - Selected role value
+ */
+function getCurrentRole() {
+    const roleSelect = document.getElementById('role');
+    return roleSelect ? roleSelect.value : 'Voter';
+}
+
+/**
+ * Check if candidate fields are currently visible
+ * @returns {boolean} - True if candidate fields are shown
+ */
+function areCandidateFieldsVisible() {
+    const candidateFields = document.getElementById('candidateFields');
+    return candidateFields && candidateFields.style.display !== 'none';
+}
+
+/**
+ * Utility function to get all form data (for debugging)
+ * @returns {Object} - Form data object
+ */
+function getFormData() {
+    const form = document.getElementById('registrationForm');
+    const formData = new FormData(form);
+    const data = {};
+    
+    for (let [key, value] of formData.entries()) {
+        data[key] = value;
+    }
+    
+    return data;
+}
+
+// Export functions for potential external use or debugging
+window.RegistrationForm = {
+    getCurrentRole,
+    areCandidateFieldsVisible,
+    getFormData,
+    showCandidateFields: () => {
+        const candidateFields = document.getElementById('candidateFields');
+        if (candidateFields) showCandidateFields(candidateFields);
+    },
+    hideCandidateFields: () => {
+        const candidateFields = document.getElementById('candidateFields');
+        if (candidateFields) hideCandidateFields(candidateFields);
+    }
+};
+
+// Console logging for debugging
+console.log('User Registration Page JavaScript loaded successfully');
+console.log('Note: Submit button has no functionality as requested - design only');
