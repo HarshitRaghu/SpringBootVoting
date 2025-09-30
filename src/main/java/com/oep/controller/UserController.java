@@ -60,14 +60,18 @@ public class UserController {
 	
 	@PostMapping("/checkUser")
 	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m) {
-		String role = daoimpl.checkUser(email, password);
-		if(role != null) {
-			if(role.equalsIgnoreCase(Voter.Role.VOTER.toString()))
+		Voter user = daoimpl.checkUser(email, password);
+		if(user != null) {
+			if(user.getRole().toString().equalsIgnoreCase(Voter.Role.VOTER.toString())) {
+				m.addAttribute("voter", user);
 				return "voter-dashboard";
-			else if(role.equalsIgnoreCase(Voter.Role.CANDIDATE.toString()))
+			}
+			else if(user.getRole().toString().equalsIgnoreCase(Voter.Role.CANDIDATE.toString())) {
+				m.addAttribute("candidate", user);
 				return "candidate-dashboard";
-			else if(role.equalsIgnoreCase(Voter.Role.ADMIN.toString()))
-				return "admin-dashboard";
+			}
+			else if(user.getRole().toString().equalsIgnoreCase(Voter.Role.ADMIN.toString()))
+				return "redirect:/adminDashboard";
 		}
 		else {
 			m.addAttribute("msg","enter valid user info.");

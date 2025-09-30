@@ -70,7 +70,7 @@ public class VoterDaoImpl implements VoterDao {
 	
 	@Override
 	@Transactional
-	public String checkUser(String email, String password) {
+	public Voter checkUser(String email, String password) {
 		
 		try {
 	        String hql = "FROM Voter u WHERE u.email = :email AND u.password = :password";
@@ -82,7 +82,7 @@ public class VoterDaoImpl implements VoterDao {
 	                                  .list();
 
 	        if (!users.isEmpty()) {
-	            return users.get(0).getRole().toString();  // safe access
+	            return users.get(0);  // safe access
 	        }
 	        return null;
 	    } catch (Exception e) {

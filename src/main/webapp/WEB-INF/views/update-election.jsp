@@ -1,3 +1,4 @@
+<%@page import="com.oep.pojo.Election"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,11 +12,11 @@
 	String msg = (String)request.getAttribute("msg");
 	if(msg != null) out.print(msg);
 %>
-<h2>Add New Election</h2>
+<h2>Update Election</h2>
     <form method="POST" action="update">
      	<p>
             <label for="election_id">Election ID:</label>
-            <input type="number" id="id" name="election_id" required>
+            <input type="number" name="election_id"  value="" required>
         </p>
         <p>
             <label for="name">Election Name:</label>

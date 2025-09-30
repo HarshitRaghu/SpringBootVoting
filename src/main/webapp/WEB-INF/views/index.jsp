@@ -65,7 +65,7 @@
                     </button>
                     </a>  
                     <button class="btn btn--outline btn--lg">
-                        Learn More
+                        Result
                     </button>
                 </div>
             </div>

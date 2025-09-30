@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.oep.pojo.Voter" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,13 +12,16 @@
     <link rel="stylesheet" href="css/voterDashStyle.css">
 </head>
 <body>
+<%
+	Voter voter = (Voter)request.getAttribute("voter");
+%>
     <!-- Header -->
     <header class="voter-header">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-3">
                 <div class="header-info">
                     <h1 class="mb-0"><i class="fas fa-vote-yea me-2"></i>Election Portal</h1>
-                    <p class="mb-0 text-secondary">Voter Dashboard</p>
+                    <p class="mb-0 text-secondary"></p>
                 </div>
                 <div class="header-actions">
                     <button class="btn btn--outline">
@@ -37,11 +41,11 @@
                     <div class="card__body">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="mb-2" id="voterName">Anjali Verma</h2>
+                                <h2 class="mb-2" id="voterName"><%=voter.getName() %></h2>
                                 <div class="voter-details">
-                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="voterId">UPL123456789</span></p>
-                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Address:</strong> <span id="voterAddress">23 Patel Nagar, Lucknow, Uttar Pradesh - 226001</span></p>
-                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Phone:</strong> <span id="voterPhone">+91-9876543210</span></p>
+                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="voterId"><%=voter.getId() %></span></p>
+                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Date of birth:</strong> <span id="voterAddress"><%=voter.getDob() %></span></p>
+                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Email:</strong> <span id="voterPhone"><%=voter.getEmail() %></span></p>
                                 </div>
                             </div>
                             <div class="col-md-4 text-center">

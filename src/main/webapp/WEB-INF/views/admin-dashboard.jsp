@@ -202,7 +202,6 @@
                             <i class="bi bi-person-plus me-2"></i>Add New Candidate
                         </button>
                     </div>
-                    
                     <div class="card">
                         <div class="card-header">
                             <div class="row align-items-center">
@@ -228,56 +227,31 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                   
-                                        <tr>
-                                            <td>1</td>
-                                            <td>John Smith</td>
-                                            <td>Democratic Party</td>
-                                            <td>john.smith@email.com</td>
-                                            <td>+1-555-0123</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Sarah Johnson</td>
-                                            <td>Republican Party</td>
-                                            <td>sarah.johnson@email.com</td>
-                                            <td>+1-555-0124</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Michael Brown</td>
-                                            <td>Independent</td>
-                                            <td>michael.brown@email.com</td>
-                                            <td>+1-555-0125</td>
-                                            <td><span class="badge bg-secondary">Inactive</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-
+                                   		<%
+											List<Candidate> candidate_list = (List<Candidate>)request.getAttribute("candidate_list");
+											if(candidate_list.size()>0){
+												for(Candidate candidate: candidate_list){
+													%>
+													<tr>
+														<td><%=candidate.getCandidate_id() %></td>
+														<td><%=candidate.getName() %></td>
+														<td><%=candidate.getParty() %></td>
+														<td><%=candidate.getEmail() %></td>
+														<td><%=candidate.getBio() %></td>	
+														<td>
+			                                                <button class="btn btn-sm btn-outline-primary me-1">
+			                                                    <i class="bi bi-pencil"></i>
+			                                                </button>
+			                                                <button class="btn btn-sm btn-outline-danger">
+			                                                    <i class="bi bi-trash"></i>
+			                                                </button>
+			                                            </td>
+			                                        </tr>
+													<%
+												}
+											}
+											
+										%>
                                     </tbody>
                                 </table>
                             </div>
@@ -328,61 +302,37 @@
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Age</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th>Date of birth</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Alice Wilson</td>
-                                            <td>alice.wilson@email.com</td>
-                                            <td>+1-555-0201</td>
-                                            <td>28</td>
-                                            <td><span class="badge bg-success">Verified</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Bob Davis</td>
-                                            <td>bob.davis@email.com</td>
-                                            <td>+1-555-0202</td>
-                                            <td>35</td>
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Carol Martinez</td>
-                                            <td>carol.martinez@email.com</td>
-                                            <td>+1-555-0203</td>
-                                            <td>42</td>
-                                            <td><span class="badge bg-success">Verified</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        <%
+											List<Voter> voter_list = (List<Voter>)request.getAttribute("voter_list");
+											if(voter_list.size()>0){
+												for(Voter voter: voter_list){
+													if(!voter.getRole().toString().equalsIgnoreCase("admin")){
+													%>
+													<tr>
+														<td><%=voter.getId() %></td>
+														<td><%=voter.getName() %></td>
+														<td><%=voter.getEmail() %></td>
+														<td><%=voter.getDob() %></td>	
+														<td>
+				                                                <button class="btn btn-sm btn-outline-primary me-1">
+				                                                    <i class="bi bi-pencil"></i>
+				                                                </button>
+				                                                <button class="btn btn-sm btn-outline-danger">
+				                                                    <i class="bi bi-trash"></i>
+				                                                </button>
+														</td>
+													</tr>
+													<%
+													}
+												}
+											}
+											
+										%>
                                     </tbody>
                                 </table>
                             </div>
@@ -427,47 +377,36 @@
                                             <th>Title</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
-                                            <th>Status</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Presidential Election 2024</td>
-                                            <td>2024-11-01</td>
-                                            <td>2024-11-30</td>
-                                            <td><span class="badge bg-success">Active</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-info me-1">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Student Council Election</td>
-                                            <td>2024-10-15</td>
-                                            <td>2024-10-25</td>
-                                            <td><span class="badge bg-secondary">Completed</span></td>
-                                            <td>
-                                                <button class="btn btn-sm btn-outline-info me-1">
-                                                    <i class="bi bi-eye"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-primary me-1">
-                                                    <i class="bi bi-pencil"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                       <%
+											List<Election> election_list = (List<Election>)request.getAttribute("election_list");
+											if(election_list.size()>0){
+												for(Election election: election_list){
+													%>
+													<tr>
+														<td><%=election.getElection_id() %></td>
+														<td><%=election.getElection_name()%></td>
+														<td><%=election.getDate()%></td>
+														<td><%=election.getPosition() %></td>
+			                                            <td>	
+			                                            	<!-- i want to send the election id to the update-election page,just after the recored is updated generate a popup with message record deleted-->
+			                                                <button class="btn btn-sm btn-outline-primary me-1" name="election_id" value="<%=election.getElection_id()%>" onclick="window.location.href='election/update-election'">
+			                                                	<i class="bi bi-pencil"></i>
+				                                            </button>
+				                                            <!--  after i click the below button the record will be deleted you don't need to add the fuctionality, just after the recored is deleted generate a popup with message record deleted -->
+			                                                <button class="btn btn-sm btn-outline-danger" name="election_id" value="<%=election.getElection_id()%>">
+			                                                    <i class="bi bi-trash"></i>
+			                                                </button>
+			                                            </td>
+			                                        </tr>
+													<%
+												}
+											}
+											
+										%>
                                     </tbody>
                                 </table>
                             </div>

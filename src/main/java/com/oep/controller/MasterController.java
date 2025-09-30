@@ -48,7 +48,7 @@ public class MasterController {
 		return "login1";
 	}
 	
-	@GetMapping("/admin-dashboard")
+	@GetMapping("/adminDashboard")
 	public String adminDashboardPage(Model m){
 		List<Election> election_list = election_service.listOfElections();
 		List<Candidate> candidate_list = candidate_service.listOfCandidates();
@@ -65,4 +65,5 @@ public class MasterController {
 		
 		return "admin-dashboard";
 	}
+	
 }
