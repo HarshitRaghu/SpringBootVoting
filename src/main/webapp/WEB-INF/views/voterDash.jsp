@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,9 +36,10 @@
                     <div class="card__body">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="mb-2" id="voterName">Anjali Verma</h2>
+                           
+                                <h2 class="mb-2" id="username"><%= session.getAttribute("username") %></h2>
                                 <div class="voter-details">
-                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="voterId">UPL123456789</span></p>
+                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="Id"><%= session.getAttribute("userId") %></span></p>
                                     <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Address:</strong> <span id="voterAddress">23 Patel Nagar, Lucknow, Uttar Pradesh - 226001</span></p>
                                     <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Phone:</strong> <span id="voterPhone">+91-9876543210</span></p>
                                 </div>

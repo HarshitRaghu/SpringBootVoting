@@ -59,7 +59,7 @@ public class UserDaoImpl implements UserDao {
 	
 	@Override
 	@Transactional
-	public String checkUser(String email, String password) {
+	public User checkUser(String email, String password) {
 		
 		try {
 	        String hql = "FROM User u WHERE u.email = :email AND u.password = :password";
@@ -71,7 +71,7 @@ public class UserDaoImpl implements UserDao {
 	                                  .list();
 
 	        if (!users.isEmpty()) {
-	            return users.get(0).getRole().toString();  // safe access
+	            return users.get(0);  // safe access
 	        }
 	        return null;
 	    } catch (Exception e) {

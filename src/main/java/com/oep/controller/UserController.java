@@ -1,8 +1,17 @@
 package com.oep.controller;
 
+
+
+
+
+import javax.servlet.http.HttpSession;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +45,12 @@ public class UserController {
 	public String login1Page() {
 		return "login1";
 	}
-	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "logout";
+		
+	}
 	
 	@PostMapping("/register") // controller mapping
     public String registerUser(
@@ -65,14 +79,21 @@ public class UserController {
     }
 	
 	@PostMapping("/checkUser")
-	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m) {
-		String role = daoimpl.checkUser(email, password);
-		if(role != null) {
-			if(role.equalsIgnoreCase(User.Role.VOTER.toString()))
+	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m,HttpSession session) {
+		User user = daoimpl.checkUser(email, password);
+		if(user != null) {
+			 
+			session.setAttribute("loggedUser", user);
+			session.setAttribute("username", user.getName());
+			session.setAttribute("userId", user.getId());
+			
+			 System.out.println("Session username: " + session.getAttribute("username"));
+		        System.out.println("Session userId: " + session.getAttribute("userId"));
+			if(user.getRole()==User.Role.VOTER)
 				return "voterDash";
-			else if(role.equalsIgnoreCase(User.Role.CANDIDATE.toString()))
+			else if(user.getRole()==User.Role.CANDIDATE)
 				return "candidate_dashboard";
-			else if(role.equalsIgnoreCase(User.Role.ADMIN.toString()))
+			else if(user.getRole()==User.Role.ADMIN)
 				return "admin_dashboard";
 		}
 		else {
