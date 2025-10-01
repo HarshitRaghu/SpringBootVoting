@@ -6,6 +6,7 @@ import com.oep.pojo.Candidate;
 
 public interface CandidateDao {
 	
+	
 	Candidate updateCandidate(Candidate c);
 	boolean deleteCandidate(String candidate_id);
 	boolean nominate(Candidate c);

@@ -38,58 +38,85 @@ public class UserController {
 	}
 	
 	@PostMapping("/register") // controller mapping
-    public String registerUser(
-            @RequestParam("name") String name,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam("dob") String dob,
-            @RequestParam("role") String role,
-            @RequestParam("phone") String phone_no,
-            @RequestParam("address") String address,
-            @RequestParam(value = "party", required = false) String party,
-            @RequestParam(value = "bio", required = false) String bio,
-            @RequestParam(value = "profile_photo", required = false) MultipartFile profile,
-            @RequestParam(value = "party_logo", required = false) MultipartFile logo,
-            @RequestParam(value = "constituency", required = false) String constituency,
-            Model m) {
-		
-        Voter user = new Voter();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setDob(java.time.LocalDate.parse(dob));
-        user.setRole(Voter.Role.valueOf(role));
-        user.setAddress(address);
-        user.setPhone_no(phone_no);
-        String profile_name = null;
-        String logo_name = null;
-        
-        try {
-	        if(logo != null) {
-		        profile_name = profile.getOriginalFilename();
-		        String serverpath_profile = "C:\\Users\\user\\MYCollageProject\\voting\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\";
-		        File serverfile_profile = new File(serverpath_profile, profile.getOriginalFilename());
-		        profile.transferTo(serverfile_profile);
-		        
-		        logo_name = logo.getOriginalFilename();
-		        String serverpath_logo = "C:\\Users\\user\\MYCollageProject\\voting\\SpringBootVoting\\src\\main\\webapp\\resources\\images";
-		        File serverfile_logo = new File(serverpath_logo, logo.getOriginalFilename());
-		        logo.transferTo(serverfile_logo);
+	public String registerUser(
+	        @RequestParam("name") String name,
+	        @RequestParam("email") String email,
+	        @RequestParam("password") String password,
+	        @RequestParam("dob") String dob,
+	        @RequestParam("role") String role,
+	        @RequestParam("phone") String phone_no,
+	        @RequestParam("address") String address,
+	        @RequestParam(value = "party", required = false) String party,
+	        @RequestParam(value = "bio", required = false) String bio,
+	        @RequestParam(value = "profile_photo", required = false) MultipartFile profile,
+	        @RequestParam(value = "party_logo", required = false) MultipartFile logo,
+	        @RequestParam(value = "constituency", required = false) String constituency,
+	        Model m) {
+
+	    Voter user = new Voter();
+	    user.setName(name);
+	    user.setEmail(email);
+	    user.setPassword(password);
+	    user.setDob(java.time.LocalDate.parse(dob));
+	    user.setRole(Voter.Role.valueOf(role));
+	    user.setAddress(address);
+	    user.setPhone_no(phone_no);
+
+	    // Initialize file names to null
+	    String profile_name = null;
+	    String logo_name = null;
+
+	    try {
+	        // --------------------------
+	        // Profile Photo Upload
+	        // --------------------------
+	        if (profile != null && !profile.isEmpty()) { // <-- Changed: proper null + empty check
+	            // Generate unique file name to avoid overwrite issues
+	            profile_name = System.currentTimeMillis() + "_" + profile.getOriginalFilename(); // <-- Changed: unique name
+	            String serverpath_profile = "C:\\Users\\user\\MYCollageProject\\voting\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\";
+	            File serverfile_profile = new File(serverpath_profile, profile_name);
+
+	            // Optional: Delete existing file with same name if exists
+	            if (serverfile_profile.exists()) {
+	                serverfile_profile.delete(); // <-- Prevents "file already exists" error
+	            }
+
+	            profile.transferTo(serverfile_profile); // <-- Save file
 	        }
-        }catch (Exception e) {
-			e.printStackTrace();
-			m.addAttribute("msg", "File upload error.");
-			return "reg";
-		}
 
-        String userId = daoimpl.addUser(user, party, bio, logo_name, constituency, profile_name);
-        if (userId == null) {
-            m.addAttribute("error", "Registration failed. Must be over 18 or an error occurred.");
-            return "reg";
-        }
+	        // --------------------------
+	        // Party Logo Upload
+	        // --------------------------
+	        if (logo != null && !logo.isEmpty()) { // <-- Changed: proper null + empty check
+	            // Generate unique file name
+	            logo_name = System.currentTimeMillis() + "_" + logo.getOriginalFilename(); // <-- Changed: unique name
+	            String serverpath_logo = "C:\\Users\\user\\MYCollageProject\\voting\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\";
+	            File serverfile_logo = new File(serverpath_logo, logo_name);
 
-        return "admin-dashboard";
-    }
+	            // Optional: Delete existing file with same name if exists
+	            if (serverfile_logo.exists()) {
+	                serverfile_logo.delete(); // <-- Prevents "file already exists" error
+	            }
+
+	            logo.transferTo(serverfile_logo); // <-- Save file
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        m.addAttribute("msg", "File upload error.");
+	        return "reg";
+	    }
+
+	    // Save user into DB with uploaded file names
+	    String userId = daoimpl.addUser(user, party, bio, logo_name, constituency, profile_name);
+	    if (userId == null) {
+	        m.addAttribute("error", "Registration failed. Must be over 18 or an error occurred.");
+	        return "reg";
+	    }
+
+	    return "admin-dashboard";
+	}
+
 	
 	@PostMapping("/checkUser")
 	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m,HttpSession session) {
