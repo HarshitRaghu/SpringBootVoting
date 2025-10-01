@@ -12,7 +12,7 @@ import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class Voter {
 
 	public enum Role{
 		VOTER, CANDIDATE, ADMIN
@@ -30,33 +30,51 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
-	@Column(nullable = false,length=100)
-	private String address;
-	
-	@Column(nullable = false,length=15)
-	private String contact;
-	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	
 	@Column(nullable = false)
 	private LocalDate dob;
+	
+	@Column(nullable = false)
+	private String phone_no;
+	
+	@Column(nullable = false)
+	private String address;
 
-	public User() {
-	}
+	
 
-	public User(String id, String name, String email, String password, String address, String contact, Role role,
-			LocalDate dob) {
-		super();
-		this.id = id;
+	
+	public Voter(String name, String email, String password, Role role, LocalDate dob, String phone_no,
+			String address) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.address = address;
-		this.contact = contact;
 		this.role = role;
 		this.dob = dob;
+		this.phone_no = phone_no;
+		this.address = address;
+	}
+
+	public Voter() {
+		
+	}
+
+	public String getPhone_no() {
+		return phone_no;
+	}
+
+	public void setPhone_no(String phone_no) {
+		this.phone_no = phone_no;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getId() {
@@ -91,22 +109,6 @@ public class User {
 		this.password = password;
 	}
 
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getContact() {
-		return contact;
-	}
-
-	public void setContact(String contact) {
-		this.contact = contact;
-	}
-
 	public Role getRole() {
 		return role;
 	}
@@ -125,10 +127,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", address="
-				+ address + ", contact=" + contact + ", role=" + role + ", dob=" + dob + "]";
+		return "Voter [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
+				+ ", dob=" + dob + ", phone_no=" + phone_no + ", address=" + address + "]";
 	}
 
-	
-	
 }

@@ -1,10 +1,9 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voting System Login</title>
-    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
@@ -27,6 +26,7 @@
                             <p class="login-subtitle">Secure access to the democratic process</p>
                         </div>
 
+    <a href="reg">registratin</a>
                         <!-- Login Form Card -->
                         <div class="card login-card">
                             <div class="card-body p-4">
@@ -41,13 +41,10 @@
                                             <span class="input-group-text">
                                                 <i class="bi bi-person-circle"></i>
                                             </span>
-                                            <input 
-                                                type="text" 
-                                                class="form-control" 
-                                                id="username" 
-                                                placeholder="Enter your username"
-                                                name = "email"
-                                            >
+
+                                            <input type="text" class="form-control" id="username" 
+                                                   placeholder="Enter your username" name="email">
+
                                         </div>
                                     </div>
 
@@ -61,6 +58,7 @@
                                             <span class="input-group-text">
                                                 <i class="bi bi-shield-lock"></i>
                                             </span>
+
                                             <input 
                                                 type="password" 
                                                 class="form-control" 
@@ -74,13 +72,15 @@
                                                 id="togglePassword"
                                                 aria-label="Toggle password visibility"
                                             >
+
                                                 <i class="bi bi-eye" id="toggleIcon"></i>
                                             </button>
                                         </div>
                                     </div>
 
-                                    <!-- Login Buttons -->
+                                    <!-- Single Login Button -->
                                     <div class="login-buttons mb-3">
+
                                         <button 
                                             type="submit" 
                                             class="btn btn-primary btn-login w-100 mb-2" 
@@ -90,7 +90,9 @@
                                             <i class="bi bi-person-check me-2"></i>
                                             <span class="btn-text">Login</span>
                                             <div class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></div>
+
                                         </button>
+
                                         
                                         
 
@@ -108,6 +110,7 @@
                                                 <i class="bi bi-person-plus me-1"></i>
                                                 New Candidate Registration
                                             </a>
+
                                     </div>
                                 </form>
                             </div>
@@ -116,9 +119,8 @@
                         <!-- Footer -->
                         <div class="text-center mt-4">
                             <small class="text-muted">
-                                © 2025 Voting System. All rights reserved.
-                                <br>
-                                Secure • Transparent • Democratic
+                                &copy; 2025 Voting System. All rights reserved.<br>
+                                Secure &bull; Transparent &bull; Democratic
                             </small>
                         </div>
                     </div>

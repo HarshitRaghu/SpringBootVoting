@@ -1,10 +1,15 @@
 package com.oep.dao;
 
+import java.util.List;
+
+import com.oep.pojo.Election;
+
 public interface ElectionDao {
-	// Add Election Behavior here
-	// Add Election
-	// Update Election (change type, postone, or prepone)
-	// Delete Election
-	// Search Election
-	// List all Elections
+	
+	boolean addElection(Election e);
+	boolean updateElection(Election e);
+	boolean deleteElection(Election e);
+	Election searchElection(int id); 
+	List<Election> listOfElections();
+	
 }
