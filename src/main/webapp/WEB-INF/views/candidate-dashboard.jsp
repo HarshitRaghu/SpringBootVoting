@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="css/candidateDashStyle.css">
 </head>
 <body>
+
     <!-- Top Navigation -->
     <nav class="top-nav">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h5 class="mb-0">Welcome, <span id="candidateName">Rajesh Kumar Sharma</span></h5>
+                    <h5 class="mb-0">Welcome, <span id="username"><%=session.getAttribute("username") %></span></h5>
                 </div>
                 <div>
                     <button class="btn btn-outline-primary">
@@ -44,13 +45,13 @@
                 <div class="col-lg-4 mb-4">
                     <div class="card profile-card">
                         <div class="card-body text-center">
-                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" 
-                                 alt="Profile Picture" class="profile-img mb-3" id="profilePicture">
-                            <h4 class="mb-2" id="fullName">Rajesh Kumar Sharma</h4>
-                            <p class="text-muted mb-3" id="constituency">New Delhi Constituency</p>
+                            <img src="<%= session.getAttribute("partyLogo") %>" 
+                                 alt="Profile Picture" class="profile-img mb-3" id="partyLogo">
+                            <h4 class="mb-2" id="username"><%=session.getAttribute("username") %></h4>
+                            <p class="text-muted mb-3" ><%= session.getAttribute("constituency") %></p>
                             <div class="contact-info">
-                                <p class="mb-1"><i class="fas fa-phone me-2 text-primary"></i><span id="phone">+91-9876543210</span></p>
-                                <p class="mb-1"><i class="fas fa-envelope me-2 text-primary"></i><span id="email">rajesh.sharma@inp.org.in</span></p>
+                                <p class="mb-1" ><i class="fas fa-phone me-2 text-primary"></i><span ><%=session.getAttribute("phone") %></span></p>
+                                <p class="mb-1" ><i class="fas fa-envelope me-2 text-primary"></i><span "><%=session.getAttribute("email") %></span></p>
                             </div>
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                                     <h5 class="mb-0"><i class="fas fa-map-marker-alt me-2"></i>Address</h5>
                                 </div>
                                 <div class="card-body">
-                                    <p class="mb-0" id="fullAddress">123 Gandhi Road, New Delhi, Delhi - 110001</p>
+                                    <p class="mb-0" id="address"><%= session.getAttribute("address") %></p>
                                 </div>
                             </div>
                         </div>
@@ -79,11 +80,11 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
-                                        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=80&h=80&fit=crop" 
-                                             alt="Party Logo" class="party-logo me-3" id="partyLogo">
+                                        <img src="<%= session.getAttribute("partyLogo") %>" 
+                                             alt="Party Logo" class="party-logo me-3" >
                                         <div>
-                                            <h6 class="mb-1" id="partyName">Indian National Party</h6>
-                                            <small class="text-muted" id="partyShortName">INP</small>
+                                            <h6 class="mb-1" ><%=session.getAttribute("partyName") %></h6>
+                                            
                                         </div>
                                     </div>
                                 </div>

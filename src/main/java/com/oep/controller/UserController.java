@@ -67,12 +67,12 @@ public class UserController {
         try {
 	        if(logo != null) {
 		        profile_name = profile.getOriginalFilename();
-		        String serverpath_profile = "D:\\study\\Java_program\\Web_project\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\profile\\";
+		        String serverpath_profile = "C:\\Users\\user\\MYCollageProject\\voting\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\";
 		        File serverfile_profile = new File(serverpath_profile, profile.getOriginalFilename());
 		        profile.transferTo(serverfile_profile);
 		        
 		        logo_name = logo.getOriginalFilename();
-		        String serverpath_logo = "D:\\study\\Java_program\\Web_project\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\logo\\";
+		        String serverpath_logo = "C:\\Users\\user\\MYCollageProject\\voting\\SpringBootVoting\\src\\main\\webapp\\resources\\images";
 		        File serverfile_logo = new File(serverpath_logo, logo.getOriginalFilename());
 		        logo.transferTo(serverfile_logo);
 	        }
@@ -92,25 +92,35 @@ public class UserController {
     }
 	
 	@PostMapping("/checkUser")
-	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m, HttpServletRequest request) {
+	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m,HttpSession session) {
 		
 		Voter user = daoimpl.checkUser(email, password);
-		HttpSession session = request.getSession(false);
-		if(session!=null)
-		{
-			session.invalidate();
-		}
-		session = request.getSession(true);
+	
+		
 		if(user != null) {
-			if(user.getRole().toString().equalsIgnoreCase(Voter.Role.VOTER.toString())) {
-				session.setAttribute("voter", user);
+			
+			session.setAttribute("logged", user);
+			session.setAttribute("username", user.getName());
+			session.setAttribute("userId", user.getId());
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("phone", user.getPhone_no());
+			session.setAttribute("dob", user.getDob());
+			if(user.getRole()==Voter.Role.VOTER) {
+				
 				return "voter-dashboard";
 			}
-			else if(user.getRole().toString().equalsIgnoreCase(Voter.Role.CANDIDATE.toString())) {
-				session.setAttribute("candidate", user);
+			else if(user.getRole()==Voter.Role.CANDIDATE) {
+				Candidate c = (Candidate) user; 
+				 session.setAttribute("address", c.getAddress());
+				    session.setAttribute("partyName", c.getParty());
+				    
+				    session.setAttribute("constituency", c.getConstituency());
+				    session.setAttribute("bio", c.getBio());
+				    session.setAttribute("partyLogo", c.getParty_logo());
+				
 				return "candidate-dashboard";
 			}
-			else if(user.getRole().toString().equalsIgnoreCase(Voter.Role.ADMIN.toString()))
+			else if(user.getRole()==Voter.Role.ADMIN)
 				return "redirect:/adminDashboard";
 		}
 		else {

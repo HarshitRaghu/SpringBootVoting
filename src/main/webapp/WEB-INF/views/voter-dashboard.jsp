@@ -41,12 +41,13 @@
                     <div class="card__body">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="mb-2" id="username"><%=voter.getName() %></h2>
+                                <h2 class="mb-2" id="username"><%=session.getAttribute("username")%></h2>
                                 <div class="voter-details">
-                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="Id"><%=voter.getId() %></span></p>
-                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Date of birth:</strong> <span id="address"><%=voter.getAddress() %></span></p>
-                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Phone:</strong> <span id="phone"><%=voter.getPhone_no() %></span></p>
-                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Email:</strong> <span id="email"><%=voter.getEmail() %></span></p>
+                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="Id"><%=session.getAttribute("userId") %></span></p>
+                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Date of birth:</strong> <span id="dob"><%=session.getAttribute("dob")%></span></p>
+                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Address:</strong> <span id="address"><%=session.getAttribute("address")%></span></p>
+                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Phone:</strong> <span id="phone"><%=session.getAttribute("phone") %></span></p>
+                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Email:</strong> <span id="email"><%=session.getAttribute("email")%></span></p>
                                 </div>
                             </div>
                             <div class="col-md-4 text-center">
