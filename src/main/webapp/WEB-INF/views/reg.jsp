@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +10,7 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/regStyle.css">
+    <link rel="stylesheet" href="/regStyle.css">
 </head>
 <body>
     <div class="container-fluid min-vh-100">
@@ -269,7 +266,7 @@
                                             <input 
                                                 type="file" 
                                                 class="form-control" 
-                                                id="partyLogo" 
+                                                id="party_logo" 
                                                 name="party_logo" 
                                                 accept="image/*"
                                             >
@@ -325,6 +322,6 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom JS -->
-    <script src="js/regApp.js"></script>
+    <script src="js/reg.js"></script>
 </body>
 </html>

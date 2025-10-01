@@ -65,16 +65,16 @@ public class UserController {
         String logo_name = null;
         
         try {
-	        if(logo != null && profile !=null) {
+	        if(logo != null) {
 		        profile_name = profile.getOriginalFilename();
-		        String serverpath_profile = "D:\\study\\Java_program\\Web_project\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\";
+		        String serverpath_profile = "D:\\study\\Java_program\\Web_project\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\profile\\";
 		        File serverfile_profile = new File(serverpath_profile, profile.getOriginalFilename());
 		        profile.transferTo(serverfile_profile);
 		        
 		        logo_name = logo.getOriginalFilename();
-		        String serverpath_logo = "D:\\study\\Java_program\\Web_project\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\";
-		        File serverfile_logo = new File(serverpath_logo, profile.getOriginalFilename());
-		        profile.transferTo(serverfile_profile);
+		        String serverpath_logo = "D:\\study\\Java_program\\Web_project\\SpringBootVoting\\src\\main\\webapp\\resources\\images\\logo\\";
+		        File serverfile_logo = new File(serverpath_logo, logo.getOriginalFilename());
+		        logo.transferTo(serverfile_logo);
 	        }
         }catch (Exception e) {
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class UserController {
 			return "reg";
 		}
 
-        String userId = daoimpl.addUser(user, party, bio, profile_name, logo_name, constituency);
+        String userId = daoimpl.addUser(user, party, bio, logo_name, constituency, profile_name);
         if (userId == null) {
             m.addAttribute("error", "Registration failed. Must be over 18 or an error occurred.");
             return "reg";
@@ -103,7 +103,7 @@ public class UserController {
 		session = request.getSession(true);
 		if(user != null) {
 			if(user.getRole().toString().equalsIgnoreCase(Voter.Role.VOTER.toString())) {
-				m.addAttribute("voter", user);
+				session.setAttribute("voter", user);
 				return "voter-dashboard";
 			}
 			else if(user.getRole().toString().equalsIgnoreCase(Voter.Role.CANDIDATE.toString())) {

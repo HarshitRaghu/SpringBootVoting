@@ -41,11 +41,12 @@
                     <div class="card__body">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h2 class="mb-2" id="voterName"><%=voter.getName() %></h2>
+                                <h2 class="mb-2" id="username"><%=voter.getName() %></h2>
                                 <div class="voter-details">
-                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="voterId"><%=voter.getId() %></span></p>
-                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Date of birth:</strong> <span id="voterAddress"><%=voter.getDob() %></span></p>
-                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Email:</strong> <span id="voterPhone"><%=voter.getEmail() %></span></p>
+                                    <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="Id"><%=voter.getId() %></span></p>
+                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Date of birth:</strong> <span id="address"><%=voter.getAddress() %></span></p>
+                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Phone:</strong> <span id="phone"><%=voter.getPhone_no() %></span></p>
+                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Email:</strong> <span id="email"><%=voter.getEmail() %></span></p>
                                 </div>
                             </div>
                             <div class="col-md-4 text-center">
@@ -78,6 +79,7 @@
                                 <div id="electionDetails" class="election-details" style="display: none;">
                                     <h5 id="selectedElectionTitle"></h5>
                                     <p class="mb-1"><strong>Constituency:</strong> <span id="selectedConstituency"></span></p>
+                                    
                                     <p class="mb-0"><strong>Voting Date:</strong> <span id="selectedVotingDate"></span></p>
                                 </div>
                             </div>

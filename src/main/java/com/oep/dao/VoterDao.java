@@ -6,7 +6,7 @@ import com.oep.pojo.Voter;
 
 public interface VoterDao {
 
-	String addUser(Voter u, String party, String bio, String constituency, String profile_pic, String party_logo);
+	String addUser(Voter u, String party, String bio, String constituency, String party_logo, String profile_pic);
 	Voter checkUser(String email, String password);
 	boolean updateUser(Voter v);
 	boolean deleteUser(Voter v);

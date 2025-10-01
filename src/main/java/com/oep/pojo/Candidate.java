@@ -13,6 +13,14 @@ public class Candidate extends Voter {
 	
 	private String profile_pic;
 	
+	public String getProfile_pic() {
+		return profile_pic;
+	}
+
+	public void setProfile_pic(String profile_pic) {
+		this.profile_pic = profile_pic;
+	}
+
 	private String party_logo;
 
 	@Column(nullable = false)
@@ -28,12 +36,12 @@ public class Candidate extends Voter {
 	}
 
 	public Candidate(String name, String email, String password, Role role, LocalDate dob, String phone_no,
-			String address, String constituency, String profile_pic, String party_logo, String party, String bio) {
+			String address, String constituency, String party_logo, String party, String bio, String profile_pic) {
 		super(name, email, password, role, dob, phone_no, address);
 		this.bio = bio;
 		this.party = party;
 		this.party_logo = party_logo;
-		this.profile_pic = profile_pic;
+		//this.profile_pic = profile_pic;
 	}
 
 	public String getConstituency() {
@@ -44,13 +52,13 @@ public class Candidate extends Voter {
 		this.constituency = constituency;
 	}
 
-	public String getProfile_pic() {
-		return profile_pic;
-	}
-
-	public void setProfile_pic(String profile_pic) {
-		this.profile_pic = profile_pic;
-	}
+//	public String getProfile_pic() {
+//		return profile_pic;
+//	}
+//
+//	public void setProfile_pic(String profile_pic) {
+//		this.profile_pic = profile_pic;
+//	}
 
 	public String getParty_logo() {
 		return party_logo;

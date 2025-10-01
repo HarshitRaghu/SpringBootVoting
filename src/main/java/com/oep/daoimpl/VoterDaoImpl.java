@@ -26,7 +26,7 @@ public class VoterDaoImpl implements VoterDao {
 	
 	@Override
 	@Transactional
-    public String addUser(Voter u, String party, String bio, String constituency, String profile_pic, String party_logo) {
+    public String addUser(Voter u, String party, String bio, String constituency, String party_logo, String profile_pic) {
 
         if (Period.between(u.getDob(), LocalDate.now()).getYears() < 18) {
             return null;
@@ -75,7 +75,7 @@ public class VoterDaoImpl implements VoterDao {
 	public Voter checkUser(String email, String password) {
 		
 		try {
-	        String hql = "FROM Voter u WHERE u.email = :email AND u.password = :password";
+	        String hql = "FROM Voter WHERE email = :email AND password = :password";
 	        Session session = sessionFactory.getCurrentSession();
 
 	        List<Voter> users = session.createQuery(hql, Voter.class)

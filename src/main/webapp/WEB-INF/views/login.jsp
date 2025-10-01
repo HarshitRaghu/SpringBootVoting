@@ -26,6 +26,10 @@
                             <p class="login-subtitle">Secure access to the democratic process</p>
                         </div>
 
+<%
+	String msg = (String)request.getAttribute("msg");
+	if(msg != null) out.print(msg);
+%>
     <a href="reg">registratin</a>
                         <!-- Login Form Card -->
                         <div class="card login-card">

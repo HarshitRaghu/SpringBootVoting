@@ -37,7 +37,7 @@ function initializeRegistrationForm() {
     // Set default role to Voter
     const roleSelect = document.getElementById('role');
     if (roleSelect) {
-        roleSelect.value = 'Voter';
+        roleSelect.value = 'VOTER';
     }
     
     console.log('Registration form initialized');
@@ -59,7 +59,7 @@ function setupRoleToggle() {
     roleSelect.addEventListener('change', function() {
         const selectedRole = this.value;
         
-        if (selectedRole === 'Candidate') {
+        if (selectedRole === 'CANDIDATE') {
             // Show candidate fields with animation
             showCandidateFields(candidateFields);
         } else {
@@ -267,7 +267,7 @@ function validateField(field) {
  */
 function getCurrentRole() {
     const roleSelect = document.getElementById('role');
-    return roleSelect ? roleSelect.value : 'Voter';
+    return roleSelect ? roleSelect.value : 'VOTER';
 }
 
 /**
