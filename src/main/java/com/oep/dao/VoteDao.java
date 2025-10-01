@@ -1,8 +1,13 @@
 package com.oep.dao;
 
+import java.util.List;
+
+import com.oep.pojo.Vote;
+
 public interface VoteDao {
-	//Add the vote behavior here only function declaration
-	// add vote
-	// check vote authentication
-	// count no. of votes per election and votes to each candidate in that election.
+	
+	boolean addVote(Vote v);
+	boolean removeVote(Vote v);
+	List<Vote> listOfVotes();
+	Vote searchVote(int vote_id);
 }
