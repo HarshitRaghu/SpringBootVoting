@@ -2,6 +2,7 @@ package com.oep.daoimpl;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -124,7 +125,11 @@ public class VoterDaoImpl implements VoterDao {
 
 	@Override
 	public List<Voter> listOfVoters() {
-		List<Voter> voters = hTemplate.loadAll(Voter.class);
-		return voters;
+	    try (Session session = sessionFactory.openSession()) {
+	        return session.createQuery("from Voter", Voter.class).list();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return Collections.emptyList(); // ✅ null ke jagah empty list
+	    }
 	}	
 }

@@ -1,12 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ page import="com.oep.pojo.Candidate" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.oep.pojo.Candidate" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candidate Dashboard - Rajesh Kumar Sharma</title>
+    <title>Candidate Dashboard - <%= session.getAttribute("username") %></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/candidateDashStyle.css">
@@ -21,9 +20,9 @@
                     <h5 class="mb-0">Welcome, <span id="username"><%=session.getAttribute("username") %></span></h5>
                 </div>
                 <div>
-                    <button class="btn btn-outline-primary">
+                    <a href="logout" class="btn btn-outline-primary">
                         <i class="fas fa-sign-out-alt me-2"></i>Logout
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -45,13 +44,13 @@
                 <div class="col-lg-4 mb-4">
                     <div class="card profile-card">
                         <div class="card-body text-center">
-                            <img src="<%= session.getAttribute("partyLogo") %>" 
-                                 alt="Profile Picture" class="profile-img mb-3" id="partyLogo">
+                            <img src="<%= session.getAttribute("profilePhoto") %>" 
+                                 alt="Profile Picture" class="profile-img mb-3" id="profilePhoto">
                             <h4 class="mb-2" id="username"><%=session.getAttribute("username") %></h4>
-                            <p class="text-muted mb-3" ><%= session.getAttribute("constituency") %></p>
+                            <p class="text-muted mb-3"><%= session.getAttribute("constituency") %></p>
                             <div class="contact-info">
-                                <p class="mb-1" ><i class="fas fa-phone me-2 text-primary"></i><span ><%=session.getAttribute("phone") %></span></p>
-                                <p class="mb-1" ><i class="fas fa-envelope me-2 text-primary"></i><span "><%=session.getAttribute("email") %></span></p>
+                                <p class="mb-1"><i class="fas fa-phone me-2 text-primary"></i><span><%=session.getAttribute("phone") %></span></p>
+                                <p class="mb-1"><i class="fas fa-envelope me-2 text-primary"></i><span><%=session.getAttribute("email") %></span></p>
                             </div>
                         </div>
                     </div>
@@ -83,8 +82,8 @@
                                         <img src="<%= session.getAttribute("partyLogo") %>" 
                                              alt="Party Logo" class="party-logo me-3" >
                                         <div>
-                                            <h6 class="mb-1" ><%=session.getAttribute("partyName") %></h6>
-                                            
+                                            <h6 class="mb-1"><%=session.getAttribute("partyName") %></h6>
+                                            <small class="text-muted"><%=session.getAttribute("constituency") %></small>
                                         </div>
                                     </div>
                                 </div>
@@ -109,16 +108,16 @@
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-md-8">
-                                    <h3 class="mb-2" id="electionType">Lok Sabha General Election 2024</h3>
-                                    <p class="mb-1"><strong>Phase:</strong> <span id="electionPhase">Phase 3</span></p>
+                                    <h3 class="mb-2" id="electionType"><%= session.getAttribute("electionType") != null ? session.getAttribute("electionType") : "No Active Election" %></h3>
+                                    <p class="mb-1"><strong>Phase:</strong> <span id="electionPhase"><%= session.getAttribute("electionPhase") != null ? session.getAttribute("electionPhase") : "-" %></span></p>
                                     <p class="mb-0"><strong>Status:</strong> 
-                                        <span class="status status--success" id="electionStatus">Campaign Active</span>
+                                        <span class="status status--success" id="electionStatus"><%= session.getAttribute("electionStatus") != null ? session.getAttribute("electionStatus") : "Inactive" %></span>
                                     </p>
                                 </div>
                                 <div class="col-md-4 text-md-end text-start">
                                     <div class="election-dates">
-                                        <p class="mb-1"><strong>Voting Date:</strong> <span id="votingDate">May 25, 2024</span></p>
-                                        <p class="mb-0"><strong>Result Date:</strong> <span id="resultDate">June 4, 2024</span></p>
+                                        <p class="mb-1"><strong>Voting Date:</strong> <span id="votingDate"><%= session.getAttribute("votingDate") != null ? session.getAttribute("votingDate") : "-" %></span></p>
+                                        <p class="mb-0"><strong>Result Date:</strong> <span id="resultDate"><%= session.getAttribute("resultDate") != null ? session.getAttribute("resultDate") : "-" %></span></p>
                                     </div>
                                 </div>
                             </div>
@@ -126,26 +125,19 @@
                     </div>
                 </div>
 
-                <!-- Constituency Details & Campaign Progress -->
+                <!-- Constituency Details -->
                 <div class="col-lg-6 mb-4">
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="mb-0"><i class="fas fa-map me-2"></i>Constituency Details</h5>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-6">
-                                    <p class="mb-2"><strong>Name:</strong><br><span id="constituencyName">New Delhi</span></p>
-                                    <p class="mb-2"><strong>Code:</strong><br><span id="constituencyCode">PC07</span></p>
-                                </div>
-                                <div class="col-6">
-                                    <p class="mb-2"><strong>Area:</strong><br><span id="constituencyArea">22.75 sq km</span></p>
-                                    <p class="mb-2"><strong>Polling Stations:</strong><br><span id="pollingStations">1,247</span></p>
-                                </div>
-                            </div>
+                            <p><strong>Name:</strong> <%= session.getAttribute("constituency") %></p>
+                            <p><strong>Code:</strong> <%= session.getAttribute("constituencyCode") != null ? session.getAttribute("constituencyCode") : "N/A" %></p>
+                            <p><strong>Polling Stations:</strong> <%= session.getAttribute("pollingStations") != null ? session.getAttribute("pollingStations") : "N/A" %></p>
                             <div class="mt-3 text-center">
                                 <h6>Total Registered Voters</h6>
-                                <h4 class="text-primary" id="totalVoters">14,56,789</h4>
+                                <h4 class="text-primary" id="totalVoters"><%= session.getAttribute("totalVoters") != null ? session.getAttribute("totalVoters") : "N/A" %></h4>
                             </div>
                         </div>
                     </div>
@@ -158,28 +150,25 @@
                             <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Campaign Progress</h5>
                         </div>
                         <div class="card-body">
-                            <div class="mb-4">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span><strong>Rallies Completed</strong></span>
-                                    <span><span id="ralliesCompleted">45</span>/<span id="totalRallies">57</span></span>
-                                </div>
-                                <div class="progress mb-3">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 79%" id="ralliesProgress"></div>
-                                </div>
+                            <p><strong>Rallies Completed:</strong> <%= session.getAttribute("ralliesCompleted") != null ? session.getAttribute("ralliesCompleted") : "0" %> /
+                                <%= session.getAttribute("totalRallies") != null ? session.getAttribute("totalRallies") : "0" %></p>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: <%= session.getAttribute("ralliesProgress") != null ? session.getAttribute("ralliesProgress") : "0" %>%"></div>
                             </div>
                             <div class="row text-center">
                                 <div class="col-6">
-                                    <h5 class="text-info mb-1" id="doorsKnocked">25,670</h5>
+                                    <h5 class="text-info mb-1"><%= session.getAttribute("doorsKnocked") != null ? session.getAttribute("doorsKnocked") : "0" %></h5>
                                     <small class="text-muted">Doors Knocked</small>
                                 </div>
                                 <div class="col-6">
-                                    <h5 class="text-warning mb-1" id="volunteerCount">2,340</h5>
+                                    <h5 class="text-warning mb-1"><%= session.getAttribute("volunteerCount") != null ? session.getAttribute("volunteerCount") : "0" %></h5>
                                     <small class="text-muted">Active Volunteers</small>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
