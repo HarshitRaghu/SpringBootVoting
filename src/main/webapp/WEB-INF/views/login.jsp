@@ -88,32 +88,11 @@
                                             data-role="voter"
                                         >
                                             <i class="bi bi-person-check me-2"></i>
-                                            <span class="btn-text">Login as Voter</span>
+                                            <span class="btn-text">Login</span>
                                             <div class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></div>
                                         </button>
                                         
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-success btn-login w-100 mb-2" 
-                                            id="candidateLogin"
-                                            data-role="candidate"
-                                        >
-                                            <i class="bi bi-person-badge me-2"></i>
-                                            <span class="btn-text">Login as Candidate</span>
-                                            <div class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></div>
-                                        </button>
                                         
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-warning btn-login w-100" 
-                                            id="adminLogin"
-                                            data-role="admin"
-                                        >
-                                            <i class="bi bi-gear me-2"></i>
-                                            <span class="btn-text">Admin Login</span>
-                                            <div class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></div>
-                                        </button>
-                                    </div>
 
                                     <!-- Links -->
                                     <div class="login-links text-center">

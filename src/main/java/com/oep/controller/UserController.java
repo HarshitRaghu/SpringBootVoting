@@ -4,6 +4,8 @@ package com.oep.controller;
 
 
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
@@ -48,35 +50,50 @@ public class UserController {
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "logout";
+		return "index";
 		
 	}
 	
-	@PostMapping("/register") // controller mapping
-    public String registerUser(
-            @RequestParam("name") String name,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password,
-            @RequestParam("dob") String dob,
-            @RequestParam("role") String role,
-            @RequestParam(value = "party", required = false) String party,
-            @RequestParam(value = "bio", required = false) String bio,
-            Model model) {
-        User user = new User();
-        user.setName(name);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setDob(java.time.LocalDate.parse(dob));
-        user.setRole(User.Role.valueOf(role));
+	@PostMapping("/register")
+	public String registerUser(
+	        @RequestParam("name") String name,
+	        @RequestParam("email") String email,
+	        @RequestParam("password") String password,
+	        @RequestParam("dob") String dob,
+	        @RequestParam("role") String role,
+	        @RequestParam(value="party", required=false) String party,
+	        @RequestParam(value="bio", required=false) String bio,
+	        @RequestParam("address") String address,
+	        @RequestParam("phone") String phone,
+	        Model model) {
 
-        String userId = daoimpl.addUser(user, party, bio);
-        if (userId == null) {
-            model.addAttribute("error", "Registration failed. Must be over 18 or an error occurred.");
-            return "reg";
-        }
+	    if(address == null || address.trim().isEmpty()) {
+	        model.addAttribute("error", "Address is required");
+	        return "reg";
+	    }
 
-        return "login";
-    }
+	    if(phone == null || phone.trim().isEmpty()) {
+	        model.addAttribute("error", "Phone number is required");
+	        return "reg";
+	    }
+
+	    User user = new User();
+	    user.setName(name);
+	    user.setEmail(email);
+	    user.setPassword(password);
+	    user.setDob(LocalDate.parse(dob));
+	    user.setRole(User.Role.valueOf(role));
+	    user.setAddress(address);
+	    user.setContact(phone);
+
+	    String userId = daoimpl.addUser(user, party, bio);
+	    if(userId == null) {
+	        model.addAttribute("error", "Registration failed. Must be over 18 or an error occurred.");
+	        return "reg";
+	    }
+
+	    return "login";
+	}
 	
 	@PostMapping("/checkUser")
 	public String checkUserCredentails(@RequestParam("email")String email, @RequestParam("password")String password, Model m,HttpSession session) {
@@ -86,9 +103,11 @@ public class UserController {
 			session.setAttribute("loggedUser", user);
 			session.setAttribute("username", user.getName());
 			session.setAttribute("userId", user.getId());
+			session.setAttribute("address", user.getAddress());
+			session.setAttribute("phone", user.getContact());
 			
-			 System.out.println("Session username: " + session.getAttribute("username"));
-		        System.out.println("Session userId: " + session.getAttribute("userId"));
+			
+			
 			if(user.getRole()==User.Role.VOTER)
 				return "voterDash";
 			else if(user.getRole()==User.Role.CANDIDATE)

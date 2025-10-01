@@ -30,9 +30,7 @@
                                     class="form-control" 
                                     placeholder="Enter your full name"
                                     required
-                                    aria-describedby="fullNameHelp"
                                 >
-                                <small id="fullNameHelp" class="form-help">Enter your legal name as it appears on official documents</small>
                             </div>
 
                             <div class="form-row">
@@ -45,9 +43,7 @@
                                         class="form-control" 
                                         placeholder="Enter your email address"
                                         required
-                                        aria-describedby="emailHelp"
                                     >
-                                    <small id="emailHelp" class="form-help">We'll use this to send you important updates</small>
                                 </div>
 
                                 <div class="form-group">
@@ -58,11 +54,39 @@
                                         name="dob" 
                                         class="form-control" 
                                         required
-                                        aria-describedby="dobHelp"
                                     >
-                                    <small id="dobHelp" class="form-help">You must be 18 or older to register</small>
                                 </div>
                             </div>
+
+                            <!-- ✅ New Row: Address + Contact Number -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="address" class="form-label">Address *</label>
+                                    <input 
+                                        type="text" 
+                                        id="address" 
+                                        name="address" 
+                                        class="form-control" 
+                                        placeholder="Enter your full address"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="phone" class="form-label">Contact Number *</label>
+                                    <input 
+                                        type="tel" 
+                                        id="phone" 
+                                        name="phone" 
+                                        class="form-control" 
+                                        placeholder="Enter your mobile number"
+                                        required
+                                        pattern="[0-9]{10}"
+                                    >
+                                    <small class="form-help">Enter 10 digit mobile number</small>
+                                </div>
+                            </div>
+                            <!-- ✅ End of New Row -->
 
                             <div class="form-row">
                                 <div class="form-group">
@@ -75,9 +99,7 @@
                                         placeholder="Create a secure password"
                                         required
                                         minlength="8"
-                                        aria-describedby="passwordHelp"
                                     >
-                                    <small id="passwordHelp" class="form-help">Minimum 8 characters required</small>
                                 </div>
 
                                 <div class="form-group">
@@ -87,13 +109,11 @@
                                         name="role" 
                                         class="form-control" 
                                         required
-                                        aria-describedby="roleHelp"
                                     >
                                         <option value="">Select your role</option>
                                         <option value="VOTER">Voter</option>
                                         <option value="CANDIDATE">Candidate</option>
                                     </select>
-                                    <small id="roleHelp" class="form-help">Choose whether you want to vote or run as a candidate</small>
                                 </div>
                             </div>
                         </div>
@@ -111,9 +131,7 @@
                                     name="party" 
                                     class="form-control" 
                                     placeholder="Enter your political party name"
-                                    aria-describedby="partyHelp"
                                 >
-                                <small id="partyHelp" class="form-help">Name of the political party you represent</small>
                             </div>
 
                             <div class="form-group">
@@ -124,9 +142,7 @@
                                     name="constituency" 
                                     class="form-control" 
                                     placeholder="Enter your constituency"
-                                    aria-describedby="constituencyHelp"
                                 >
-                                <small id="constituencyHelp" class="form-help">The electoral district you wish to represent</small>
                             </div>
 
                             <div class="form-group">
@@ -136,10 +152,8 @@
                                     name="bio" 
                                     class="form-control bio-textarea" 
                                     rows="4"
-                                    placeholder="Tell voters about yourself, your experience, and your goals..."
-                                    aria-describedby="bioHelp"
+                                    placeholder="Tell voters about yourself..."
                                 ></textarea>
-                                <small id="bioHelp" class="form-help">Share your background, experience, and vision (maximum 500 words)</small>
                             </div>
                         </div>
 

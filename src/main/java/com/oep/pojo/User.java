@@ -30,6 +30,12 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 	
+	@Column(nullable = false,length=100)
+	private String address;
+	
+	@Column(nullable = false,length=15)
+	private String contact;
+	
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Role role;
@@ -40,10 +46,15 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, String email, String password, Role role, LocalDate dob) {
+	public User(String id, String name, String email, String password, String address, String contact, Role role,
+			LocalDate dob) {
+		super();
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.address = address;
+		this.contact = contact;
 		this.role = role;
 		this.dob = dob;
 	}
@@ -80,6 +91,22 @@ public class User {
 		this.password = password;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
 	public Role getRole() {
 		return role;
 	}
@@ -98,8 +125,10 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
-				+ ", dob=" + dob + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", address="
+				+ address + ", contact=" + contact + ", role=" + role + ", dob=" + dob + "]";
 	}
+
+	
 	
 }

@@ -19,9 +19,11 @@
                     <p class="mb-0 text-secondary">Voter Dashboard</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn--outline">
+                <form action="logout">
+                    <button class="btn btn--outline" type="submit">
                         <i class="fas fa-sign-out-alt me-2"></i>Logout
                     </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -40,8 +42,8 @@
                                 <h2 class="mb-2" id="username"><%= session.getAttribute("username") %></h2>
                                 <div class="voter-details">
                                     <p class="mb-1"><i class="fas fa-id-card me-2"></i><strong>Voter ID:</strong> <span id="Id"><%= session.getAttribute("userId") %></span></p>
-                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Address:</strong> <span id="voterAddress">23 Patel Nagar, Lucknow, Uttar Pradesh - 226001</span></p>
-                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Phone:</strong> <span id="voterPhone">+91-9876543210</span></p>
+                                    <p class="mb-1"><i class="fas fa-map-marker-alt me-2"></i><strong>Address:</strong> <span id="address"><%= session.getAttribute("address") %></span></p>
+                                    <p class="mb-0"><i class="fas fa-phone me-2"></i><strong>Phone:</strong> <span id="phone"><%= session.getAttribute("phone") %></span></p>
                                 </div>
                             </div>
                             <div class="col-md-4 text-center">
