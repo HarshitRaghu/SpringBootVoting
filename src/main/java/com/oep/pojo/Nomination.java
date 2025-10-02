@@ -22,24 +22,22 @@ public class Nomination {
 	@JoinColumn(name = "election_Id")
 	private Election election;
 	
-	private String approved_by;
 
 	public Nomination() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Nomination(Candidate candidate, Election election, String approved_by) {
+	public Nomination(Candidate candidate, Election election) {
 		
 		this.candidate = candidate;
 		this.election = election;
-		this.approved_by = approved_by;
 	}
 
 	@Override
 	public String toString() {
 		return "Nomination [nomination_id=" + nomination_id + ", candidate=" + candidate + ", election=" + election
-				+ ", approved_by=" + approved_by + "]";
+				+ "]";
 	}
 
 	public int getNomination_id() {
@@ -66,12 +64,5 @@ public class Nomination {
 		this.election = election;
 	}
 
-	public String getApproved_by() {
-		return approved_by;
-	}
-
-	public void setApproved_by(String approved_by) {
-		this.approved_by = approved_by;
-	}
 	
 }
