@@ -9,67 +9,80 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"voter_id", "election_id"}))
+@Table(
+    name = "vote",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"voter_id", "election_id"})
+)
 public class Vote {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int vote_id;
-	
-	@JoinColumn(name = "id")
-	private Voter voter;
-	
-	@JoinColumn(name = "candidate_id")
-	private Candidate candidate;
-	
-	@JoinColumn(name = "election_id")
-	private Election election;
+ 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int vote_id;
 
-	public Vote() {
-	}
+                                                                            // Many votes can belong to one voter
+    @ManyToOne
+    @JoinColumn(name = "voter_id", nullable = false)  
+    private Voter voter;
 
-	public Vote(Voter voter, Candidate candidate, Election election) {
-		this.voter = voter;
-		this.candidate = candidate;
-		this.election = election;
-	}
+                                                                             // Many votes can belong to one candidate
+    @ManyToOne
+    @JoinColumn(name = "candidate_id", nullable = false)
+    private Candidate candidate;
 
-	public int getVote_id() {
-		return vote_id;
-	}
+                                                                              // Many votes can belong to one election
+    @ManyToOne
+    @JoinColumn(name = "election_id", nullable = false)
+    private Election election;
 
-	public void setVote_id(int vote_id) {
-		this.vote_id = vote_id;
-	}
+    
+    public Vote() {
+    }
 
-	public Voter getVoter() {
-		return voter;
-	}
+   
+    public Vote(Voter voter, Candidate candidate, Election election) {
+        this.voter = voter;
+        this.candidate = candidate;
+        this.election = election;
+    }
 
-	public void setVoter(Voter voter) {
-		this.voter = voter;
-	}
+                                                                                   // Getters and Setters
+    public int getVote_id() {
+        return vote_id;
+    }
 
-	public Candidate getCandidate() {
-		return candidate;
-	}
+    public void setVote_id(int vote_id) {
+        this.vote_id = vote_id;
+    }
 
-	public void setCandidate(Candidate candidate) {
-		this.candidate = candidate;
-	}
+    public Voter getVoter() {
+        return voter;
+    }
 
-	public Election getElection() {
-		return election;
-	}
+    public void setVoter(Voter voter) {
+        this.voter = voter;
+    }
 
-	public void setElection(Election election) {
-		this.election = election;
-	}
+    public Candidate getCandidate() {
+        return candidate;
+    }
 
-	@Override
-	public String toString() {
-		return "Vote [vote_id=" + vote_id + ", voter=" + voter + ", candidate=" + candidate + ", election=" + election
-				+ "]";
-	}
-	
-}
+    public void setCandidate(Candidate candidate) {
+        this.candidate = candidate;
+    }
+
+    public Election getElection() {
+        return election;
+    }
+
+    public void setElection(Election election) {
+        this.election = election;
+    }
+
+    @Override
+    public String toString() {
+        return "Vote [vote_id=" + vote_id +
+               ", voter=" + voter +
+               ", candidate=" + candidate +
+               ", election=" + election + "]";
+    }
+} 

@@ -17,26 +17,30 @@ public class VoteDaoImpl implements VoteDao{
 
 	@Override
 	public boolean addVote(Vote v) {
-		// TODO Auto-generated method stub
-		return false;
+	
+		 try {
+	            hTemplate.save(v);
+	            return true;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return false;
+	        }
+		
 	}
 
-	@Override
-	public boolean removeVote(Vote v) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	@Override
 	public List<Vote> listOfVotes() {
-		// TODO Auto-generated method stub
-		return null;
+		return hTemplate.loadAll(Vote.class);
+		
 	}
 
 	@Override
 	public Vote searchVote(int vote_id) {
-		// TODO Auto-generated method stub
-		return null;
+		 return hTemplate.get(Vote.class, vote_id);
+		
 	}
 	
 }
+
